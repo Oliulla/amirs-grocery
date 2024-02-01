@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import { Flowbite } from "flowbite-react";
-import { flowbiteTheme } from "./theme";
+import flowbiteTheme from "../lib/theme";
 
 export default function MyApp({ Component, pageProps }) {
   // Use the layout defined at the page level, if available
