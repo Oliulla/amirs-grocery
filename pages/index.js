@@ -9,8 +9,8 @@ export default function Home() {
       <Head>
         <title>Amir's Grocery | Login</title>
       </Head>
-      <main className={`${styles.bgDark} min-h-screen`}>
-        <section className="mx-auto px-4 text-white">
+      <main className={`${styles.bgDark} min-h-screen flex items-center`}>
+        <section className="mx-auto px-4 text-white w-full">
           <SigninForm />
         </section>
       </main>

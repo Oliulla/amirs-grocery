@@ -2,9 +2,9 @@ import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 
 export default function SigninForm() {
   return (
-    <div className="flex flex-col justify-center items-center w-full min-h-screen">
-      <form className="flex w-full flex-col gap-4 bg-gray-900 px-4 py-16 rounded-lg">
-        <h2 className="text-3xl font-semibold mb-4">Please Login</h2>
+    <div className="flex flex-col justify-center items-center w-full">
+      <form className="flex w-full flex-col gap-4 bg-gray-900 px-4 py-24 rounded-lg">
+        <h2 className="text-3xl font-semibold mb-16">Please Login</h2>
 
         <div>
           <div className="mb-2 block">
