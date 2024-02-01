@@ -1,7 +1,7 @@
 import { useSidebarContext } from "@/context/SidebarContext";
 import { isSmallScreen } from "@/utils/is-small-screen";
 import { DarkThemeToggle, Navbar } from "flowbite-react";
-import Image from "next/image";
+// import Image from "next/image";
 import { HiMenuAlt1, HiX } from "react-icons/hi";
 
 export const DashboardNavbar = function () {
@@ -30,14 +30,14 @@ export const DashboardNavbar = function () {
                 )}
               </button>
               <Navbar.Brand href="/">
-                <Image
+                {/* <Image
                   alt="Flowbite logo"
                   height="24"
                   src="/favicon.png"
                   width="24"
-                />
+                /> */}
                 <span className="self-center whitespace-nowrap px-3 text-xl font-semibold dark:text-white">
-                  Flowbite
+                  Amir's Grocery
                 </span>
               </Navbar.Brand>
             </div>
