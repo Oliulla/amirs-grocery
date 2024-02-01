@@ -1,9 +1,16 @@
-import { Inter } from "next/font/google";
+import SigninForm from "@/components/Auth/SignInForm";
+import styles from "@/styles/Homepage.module.css";
+import { Accordion, AccordionContent, AccordionPanel, AccordionTitle } from 'flowbite-react';
 
-const inter = Inter({ subsets: ["latin"] });
+
+
 
 export default function Home() {
   return (
-    <main>main</main>
+    <main className={`${styles.bgDark} min-h-screen`}>
+      <section className="mx-auto px-4 text-white">
+        <SigninForm />
+      </section>
+    </main>
   );
 }
