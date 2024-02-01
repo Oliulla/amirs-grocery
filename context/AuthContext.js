@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useReducer } from 'react';
+// context/AuthContext.js
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
 
 const AuthContext = createContext();
 
 const initialState = {
-    isAuthenticated: localStorage.getItem('userName') ? true : false,
-    userName: localStorage.getItem('userName') || null,
+    isAuthenticated: false,
+    userName: null,
 };
 
 const authReducer = (state, action) => {
@@ -30,6 +31,14 @@ const authReducer = (state, action) => {
 
 const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, initialState);
+
+    useEffect(() => {
+        const storedUserName = localStorage.getItem('userName');
+
+        if (storedUserName) {
+            dispatch({ type: 'LOGIN', payload: { userName: storedUserName } });
+        }
+    }, []);
 
     return (
         <AuthContext.Provider value={{ state, dispatch }}>

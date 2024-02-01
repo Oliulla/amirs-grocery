@@ -1,6 +1,7 @@
 // components/ProtectedRoute.js
+import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/router";
-import { useAuth } from "../path-to-your/AuthContext";
+import React from "react";
 
 const ProtectedRoute = ({ children }) => {
   const router = useRouter();
@@ -13,7 +14,7 @@ const ProtectedRoute = ({ children }) => {
     }
   }, [state.isAuthenticated, router]);
 
-  return <>{state.isAuthenticated && children}</>
+  return <>{state.isAuthenticated && children}</>;
 };
 
 export default ProtectedRoute;
