@@ -154,6 +154,19 @@ export default async function handler(req, res) {
 
                 const { updatedUserName, updatedPassword, oldPassword } = req.body
 
+
+                // Find the user by username
+                const user = await User.findOne({ userName: username });
+
+                if (!user) {
+                    return sendResponse(res, {
+                        success: false,
+                        statusCode: 404,
+                        message: "User not found.",
+                        data: null
+                    });
+                }
+
                 // Compare the provided password with the hashed password stored in the database
                 const passwordMatch = await bcrypt.compare(oldPassword, user.password);
 
@@ -167,17 +180,6 @@ export default async function handler(req, res) {
                 }
 
 
-                // Find the user by username
-                const user = await User.findOne({ userName: username });
-
-                if (!user) {
-                    return sendResponse(res, {
-                        success: false,
-                        statusCode: 404,
-                        message: "User not found.",
-                        data: null
-                    });
-                }
 
                 // Update username if provided
                 if (updatedUserName) {

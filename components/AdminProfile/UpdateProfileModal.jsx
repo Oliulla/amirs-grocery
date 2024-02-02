@@ -1,15 +1,63 @@
+import { useAuth } from "@/context/AuthContext";
 import { Button, Label, Modal, TextInput } from "flowbite-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { CiEdit } from "react-icons/ci";
 
 const UpdateProfileModal = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [email, setEmail] = useState("");
+  const [updatedUserName, setUpdatedUsername] = useState("");
+  const [currentPass, setCurrentPass] = useState("");
+  const { dispatch } = useAuth();
 
   function onCloseModal() {
     setOpenModal(false);
-    setEmail("");
+    setUpdatedUsername("");
+    setCurrentPass("");
   }
+
+  const handleChangeProfile = async () => {
+    const currentUserName = localStorage.getItem("userName");
+    // console.log(currentUserName);
+    if (!updatedUserName || !updatedUserName) {
+      toast.error("User name and password is required");
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user?username=${currentUserName}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            updatedUserName: updatedUserName,
+            oldPassword: currentPass,
+          }),
+        }
+      );
+
+      const resData = await res.json();
+
+      if (!resData?.success) {
+        toast.error(resData?.message);
+        return;
+      }
+
+      if (resData.success) {
+        onCloseModal();
+        toast.success(resData.message);
+        dispatch({
+          type: "LOGIN",
+          payload: { userName: resData?.data?.userName },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -33,25 +81,31 @@ const UpdateProfileModal = () => {
             <div className="space-y-6">
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="email" value="Your email" />
+                  <Label htmlFor="username" value="Your username" />
                 </div>
                 <TextInput
-                  id="email"
-                  placeholder="name@company.com"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
+                  id="username"
+                  placeholder="amir hossain"
+                  value={updatedUserName}
+                  onChange={(e) => setUpdatedUsername(e.target.value)}
                   required
                 />
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="password" value="Your password" />
+                  <Label htmlFor="password" value="Your Current password" />
                 </div>
-                <TextInput id="password" type="password" required />
+                <TextInput
+                  id="password"
+                  type="password"
+                  value={currentPass}
+                  onChange={(e) => setCurrentPass(e.target.value)}
+                  required
+                />
               </div>
 
               <div className="w-full">
-                <Button>Update Name</Button>
+                <Button onClick={handleChangeProfile}>Update Name</Button>
               </div>
             </div>
           </Modal.Body>
