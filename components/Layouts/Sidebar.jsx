@@ -2,13 +2,14 @@ import { useSidebarContext } from "@/context/SidebarContext";
 import { Sidebar } from "flowbite-react";
 import { BiBuoy } from "react-icons/bi";
 import {
-  HiArrowSmRight,
+  HiArrowSmLeft,
   HiChartPie,
   HiInbox,
   HiShoppingBag,
   HiTable,
-  HiUser,
+  HiOutlineUserCircle,
   HiViewBoards,
+  HiUser
 } from "react-icons/hi";
 import { twMerge } from "tailwind-merge";
 
@@ -27,29 +28,29 @@ export const DashboardSidebar = function () {
     >
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <Sidebar.Item href="#" icon={HiChartPie}>
-            Dashboard
+          <Sidebar.Item href="#" icon={HiOutlineUserCircle}>
+            My Profile
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiViewBoards}>
+          {/* <Sidebar.Item href="#" icon={HiViewBoards}>
             Kanban
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiInbox}>
+          </Sidebar.Item> */}
+          {/* <Sidebar.Item href="#" icon={HiInbox}>
             Inbox
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiUser}>
+          </Sidebar.Item> */}
+          {/* <Sidebar.Item href="#" icon={HiUser}>
             Users
-          </Sidebar.Item>
+          </Sidebar.Item> */}
           <Sidebar.Item href="#" icon={HiShoppingBag}>
             Products
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiArrowSmRight}>
-            Sign In
+          <Sidebar.Item href="#" icon={HiArrowSmLeft}>
+            Sign Out
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={HiTable}>
+          {/* <Sidebar.Item href="#" icon={HiTable}>
             Sign Up
-          </Sidebar.Item>
+          </Sidebar.Item> */}
         </Sidebar.ItemGroup>
-        <Sidebar.ItemGroup>
+        {/* <Sidebar.ItemGroup>
           <Sidebar.Item href="#" icon={HiChartPie}>
             Upgrade to Pro
           </Sidebar.Item>
@@ -59,7 +60,7 @@ export const DashboardSidebar = function () {
           <Sidebar.Item href="#" icon={BiBuoy}>
             Help
           </Sidebar.Item>
-        </Sidebar.ItemGroup>
+        </Sidebar.ItemGroup> */}
       </Sidebar.Items>
     </Sidebar>
   );
