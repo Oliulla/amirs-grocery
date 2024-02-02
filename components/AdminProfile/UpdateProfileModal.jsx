@@ -22,15 +22,15 @@ const UpdateProfileModal = () => {
           size="md"
           position="center"
           onClose={onCloseModal}
-          popup
+          className="border border-red-600"
         >
-          <Modal.Header>
+          <Modal.Header className="border-b">
             <span className="text-xl font-medium text-gray-900 dark:text-white">
-              Change Your UserName
+              Change username
             </span>
           </Modal.Header>
-          <Modal.Body className="flex items-center">
-            <div className="space-y-6 pb-16">
+          <Modal.Body className="flex items-center min-h-screen">
+            <div className="space-y-6">
               <div>
                 <div className="mb-2 block">
                   <Label htmlFor="email" value="Your email" />
