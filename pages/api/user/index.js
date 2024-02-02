@@ -7,6 +7,42 @@ export default async function handler(req, res) {
     await connectMongoDB();
 
     switch (req.method) {
+
+        case 'GET':
+            try {
+                const { username } = req.query;
+
+                // Find the user by username
+                const user = await User.findOne({ userName: username });
+
+                if (!user) {
+                    return sendResponse(res, {
+                        success: false,
+                        statusCode: 404,
+                        message: "User not found.",
+                        data: null
+                    });
+                }
+
+                // Send response without password
+                const userWithoutPassword = { ...user._doc };
+                delete userWithoutPassword.password;
+
+                return sendResponse(res, {
+                    success: true,
+                    statusCode: 200,
+                    message: "User retrieved successfully",
+                    data: userWithoutPassword
+                });
+            } catch (error) {
+                console.error("error --->", error);
+                return sendResponse(res, {
+                    success: false,
+                    statusCode: 500,
+                    message: "Internal Server Error",
+                    data: null
+                });
+            }
         case 'POST':
             try {
                 const { action, userName, password } = req.body;
@@ -102,6 +138,83 @@ export default async function handler(req, res) {
                         data: null
                     });
                 }
+            } catch (error) {
+                console.error("error --->", error);
+                return sendResponse(res, {
+                    success: false,
+                    statusCode: 500,
+                    message: "Internal Server Error",
+                    data: null
+                });
+            }
+
+        case 'PUT':
+            try {
+                const { username } = req.query;
+
+                const { updatedUserName, updatedPassword, oldPassword } = req.body
+
+
+                // Find the user by username
+                const user = await User.findOne({ userName: username });
+
+                if (!user) {
+                    return sendResponse(res, {
+                        success: false,
+                        statusCode: 404,
+                        message: "User not found.",
+                        data: null
+                    });
+                }
+
+                // Compare the provided password with the hashed password stored in the database
+                const passwordMatch = await bcrypt.compare(oldPassword, user.password);
+
+                if (!passwordMatch) {
+                    return sendResponse(res, {
+                        success: false,
+                        statusCode: 401,
+                        message: "Sorry, Old Password Didn't Matched!!!",
+                        data: null
+                    });
+                }
+
+
+
+                // Update username if provided
+                if (updatedUserName) {
+                    // Check if the new username already exists
+                    const existingUser = await User.findOne({ userName: updatedUserName });
+                    if (existingUser) {
+                        return sendResponse(res, {
+                            success: false,
+                            statusCode: 400,
+                            message: "New username is already taken. Please choose a different one.",
+                            data: null
+                        });
+                    }
+                    user.userName = updatedUserName;
+                }
+
+                // Update password if provided
+                if (updatedPassword) {
+                    // Hash the new password before saving
+                    user.password = await bcrypt.hash(updatedPassword, 10);
+                }
+
+                // Save the updated user to the database
+                await user.save();
+
+                // Send response without password
+                const userWithoutPassword = { ...user._doc };
+                delete userWithoutPassword.password;
+
+                return sendResponse(res, {
+                    success: true,
+                    statusCode: 200,
+                    message: "Profile updated successfully",
+                    data: userWithoutPassword
+                });
             } catch (error) {
                 console.error("error --->", error);
                 return sendResponse(res, {
