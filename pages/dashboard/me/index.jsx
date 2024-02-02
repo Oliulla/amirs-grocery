@@ -1,8 +1,13 @@
+import ProtectedRoute from "@/components/Auth/ProtectedRoute";
 import DashboardLayout from "@/components/Layouts/DashboardLayout";
 import React from "react";
 
 const MyDashboardMainPage = () => {
-  return <div> dashboard me</div>;
+  return (
+    <ProtectedRoute>
+      <div>protected content</div>
+    </ProtectedRoute>
+  );
 };
 
 export default MyDashboardMainPage;

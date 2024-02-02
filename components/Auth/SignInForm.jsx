@@ -3,11 +3,13 @@ import { useForm, Controller } from "react-hook-form";
 import { Button, Checkbox, Label, Spinner, TextInput } from "flowbite-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SigninForm() {
   const { handleSubmit, control } = useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const rotuer = useRouter();
+  const router = useRouter();
+  const { dispatch } = useAuth();
 
   const action = "login";
 
@@ -32,10 +34,17 @@ export default function SigninForm() {
         return;
       }
 
+      // Dispatch the LOGIN action to update the authentication state
+      dispatch({
+        type: "LOGIN",
+        payload: { userName: resData?.data?.userName },
+      });
+
       // Set userName to localStorage
       localStorage.setItem("userName", resData?.data?.userName);
       toast.success(resData?.message);
-      rotuer.push("/dashboard/me");
+
+      router.push("/dashboard/me");
     } catch (error) {
       console.error("Internal Error");
     } finally {
